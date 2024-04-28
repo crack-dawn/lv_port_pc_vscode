@@ -13,7 +13,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-find_package(SDL2 REQUIRED SDL2)
+# find_package(SDL2 REQUIRED SDL2)
+set(SDL2_PATH_TOP "${CMAKE_CURRENT_SOURCE_DIR}/thirdpart/SDL2-devel-2.28.2-mingw/SDL2-2.28.2/")
+find_package(SDL2 CONFIG HINTS "${SDL2_PATH_TOP}")
+# I directly use the SDL2-devel-2.28.2-mingw/SDL2-2.28.2/
+# Before build process, I have copied the SDL2.dll to the ${EXECUTABLE_OUTPUT_PATH}
 
 add_compile_definitions($<$<BOOL:${LV_USE_DRAW_SDL}>:LV_USE_DRAW_SDL=1>)
 add_compile_definitions($<$<BOOL:${LV_USE_LIBPNG}>:LV_USE_LIBPNG=1>)
@@ -21,13 +25,14 @@ add_compile_definitions($<$<BOOL:${LV_USE_LIBJPEG_TURBO}>:LV_USE_LIBJPEG_TURBO=1
 add_compile_definitions($<$<BOOL:${LV_USE_FFMPEG}>:LV_USE_FFMPEG=1>)
 
 add_subdirectory(lvgl)
-target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS})
+target_include_directories(lvgl PUBLIC ${PROJECT_SOURCE_DIR}    ${SDL2_INCLUDE_DIRS})
 
 add_executable(main main/src/main.c main/src/mouse_cursor_icon.c)
 
 target_compile_definitions(main PRIVATE LV_CONF_INCLUDE_SIMPLE)
 target_link_libraries(main lvgl lvgl::examples lvgl::demos lvgl::thorvg ${SDL2_LIBRARIES} m pthread)
 add_custom_target (run COMMAND ${EXECUTABLE_OUTPUT_PATH}/main DEPENDS main)
+
 
 if(LV_USE_DRAW_SDL)
     set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
@@ -90,7 +95,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         -Wfloat-conversion
         -Wstrict-aliasing
     )
-
-    target_compile_options(main PRIVATE -fsanitize=address,leak,undefined)
-    target_link_options(main PRIVATE -fsanitize=address,leak,undefined)
+    # target_compile_options(main PRIVATE -fsanitize=address,leak,undefined)
+    # target_link_options(main PRIVATE -fsanitize=address,leak,undefined)
 endif()

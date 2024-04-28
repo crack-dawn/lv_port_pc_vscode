@@ -1,4 +1,5 @@
 {
+    // https://github.com/niXman/mingw-builds-binaries 获取MinGW
 	// https://code.visualstudio.com/docs/editor/workspaces
 	// https://code.visualstudio.com/docs/editor/multi-root-workspaces
 	// https://code.visualstudio.com/docs/editor/variables-reference
@@ -23,7 +24,13 @@
 		"files.trimTrailingWhitespace": true,
 		"files.insertFinalNewline": true,
 		"files.trimFinalNewlines": true,
-		"cmake.configureOnOpen": true,
+        "cmake.configureOnOpen": true,
+        "files.associations": {
+            "lv_demos.h": "c",
+            "lv_demo_widgets.h": "c",
+            "lv_examples.h": "c"
+        },
+        "git.ignoreLimitWarning": true,
 	},
 	// tasks.json section
 	"tasks": {

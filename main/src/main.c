@@ -15,6 +15,8 @@
 #include "lvgl/examples/lv_examples.h"
 #include "lvgl/demos/lv_demos.h"
 
+#include "SDL2/SDL.h"
+
 /*********************
  *      DEFINES
  *********************/
@@ -32,7 +34,7 @@ static lv_display_t * hal_init(int32_t w, int32_t h);
  *  STATIC VARIABLES
  **********************/
 
-/********************** 
+/**********************
  *      MACROS
  **********************/
 
